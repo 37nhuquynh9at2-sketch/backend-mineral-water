@@ -19,10 +19,10 @@ function bindLogs(conn, label = "[DB]") {
 // ========== ✅ Kết nối với READ-ONLY user ==========
 // ========== Kết nối MongoDB (Local hoặc Cloud) ==========
 async function connectDB() {
-  const uri = process.env.MONGODB_URI_READONLY;
+  const uri = process.env.MONGODB_URI;
   
   if (!uri) {
-    throw new Error("❌ Missing MONGODB_URI_READONLY in .env file");
+    throw new Error("❌ Missing MONGODB_URI in .env file");
   }
 
   await mongoose.connect(uri, {
