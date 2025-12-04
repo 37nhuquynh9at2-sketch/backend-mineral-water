@@ -19,12 +19,10 @@ function bindLogs(conn, label = "[DB]") {
 // ========== ✅ Kết nối với READ-ONLY user ==========
 // ========== Kết nối MongoDB (Local hoặc Cloud) ==========
 async function connectDB() {
-  // Ưu tiên dùng MONGODB_URI (cho production/cloud)
-  // Nếu không có thì fallback sang MONGODB_URI_READONLY (local)
-  const uri = process.env.MONGODB_URI || process.env.MONGODB_URI_READONLY;
+  const uri = process.env.MONGODB_URI_READONLY;
   
   if (!uri) {
-    throw new Error("❌ Missing MONGODB_URI or MONGODB_URI_READONLY in .env");
+    throw new Error("❌ Missing MONGODB_URI_READONLY in .env file");
   }
 
   await mongoose.connect(uri, {
@@ -32,14 +30,8 @@ async function connectDB() {
     autoIndex: process.env.NODE_ENV !== "production",
   });
 
-  bindLogs(mongoose.connection, "[DB]");
-  
-  // Log môi trường
-  if (process.env.MONGODB_URI) {
-    console.log("✅ Connected to Cloud MongoDB (Production)");
-  } else {
-    console.log("✅ Connected to Local MongoDB (Development)");
-  }
+  bindLogs(mongoose.connection, "[ReadOnly-DB]");
+  console.log("✅ Connected to MongoDB with READ-ONLY user (qr_readonly)");
 }
 
 // ------------------------ Exports ------------------------
