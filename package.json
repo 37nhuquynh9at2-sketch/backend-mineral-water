@@ -1,0 +1,21 @@
+{
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js",
+    "preflight": "node scripts/preflight.js"
+  },
+  "dependencies": {
+    "cors": "^2",
+    "dotenv": "^16",
+    "express": "^4",
+    "express-rate-limit": "^7",
+    "helmet": "^7",
+    "ip": "^2.0.1",
+    "mongoose": "^8",
+    "morgan": "^1",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3"
+  }
+}
