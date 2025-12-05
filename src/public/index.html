@@ -491,7 +491,7 @@
         if (p.BrandID) {
           const brandRes = await fetch(`/api/brands/${p.BrandID}`);
           const brandJson = await brandRes.json();
-          if (brandJson.success) brand = brandJson.data;
+          if (brandJson.success) brand = brandJson.data.brand;
         }
 
         
