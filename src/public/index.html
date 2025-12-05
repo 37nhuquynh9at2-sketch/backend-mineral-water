@@ -485,6 +485,15 @@
         }
 
         const p = result.data;
+
+        // ⚡ Lấy thông tin Brand
+        let brand = null;
+        if (p.BrandID) {
+          const brandRes = await fetch(`/api/brands/${p.BrandID}`);
+          const brandJson = await brandRes.json();
+          if (brandJson.success) brand = brandJson.data;
+        }
+
         
         productContent.innerHTML = `
           <!-- Product Header -->
@@ -508,6 +517,12 @@
                 <span class="info-icon"></span>
                 Thông tin sản phẩm
               </h2>
+
+              <div class="info-row">
+                <span class="info-label">Thương hiệu</span>
+                <span class="info-value">${brand?.BrandName || "Chưa xác định"}</span>
+              </div>
+
               
               <div class="info-row">
                 <span class="info-label">Dung tích</span>
