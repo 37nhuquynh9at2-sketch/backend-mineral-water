@@ -262,7 +262,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
-      margin-top: 80px;
+      margin-top: 40px;
     }
 
     .detail-card {
@@ -272,7 +272,29 @@
       box-shadow: 0 10px 40px rgba(0,0,0,0.08);
     }
 
+    .supplier-card {
+      background: white;
+      border-radius: 30px;
+      padding: 50px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    }
+
     .detail-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      font-size: 1.6em;
+      color: #6b5444;
+      margin-bottom: 35px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .supplier-title {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -605,8 +627,8 @@
           </div>
 
           <!-- Supplier -->
-          <div class="detail-card">
-            <h2 class="detail-title">
+          <div class="supplier-card">
+            <h2 class="supplier-title">
               <span></span>
               Nhà cung cấp
             </h2>
