@@ -488,11 +488,19 @@
 
         // ⚡ Lấy thông tin Brand
         let brand = null;
+
         if (p.BrandID) {
           const brandRes = await fetch(`/api/brands/${p.BrandID}`);
           const brandJson = await brandRes.json();
-          if (brandJson.success) brand = brandJson.data.brand;
+
+          console.log("Brand response:", brandJson);
+
+          // ✔ Sửa đúng tại đây
+          if (brandJson.success && brandJson.data?.brand) {
+            brand = brandJson.data.brand;
+          }
         }
+
 
         
         productContent.innerHTML = `
