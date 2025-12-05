@@ -501,6 +501,18 @@
           }
         }
 
+        let supplier = null;
+
+        if (p.SupplierID) {
+          const supplierRes = await fetch(`/api/suppliers/${p.SupplierID}`);
+          const supplierJson = await supplierRes.json();
+
+          console.log("Supplier response:", supplierJson);
+
+          if (supplierJson.success && supplierJson.data?.supplier) {
+            supplier = supplierJson.data.supplier;
+          }
+        }
 
         
         productContent.innerHTML = `
@@ -590,6 +602,45 @@
                 </div>
               ` : `<div class="empty-state">Không có hướng dẫn bảo quản</div>`}
             </div>
+          </div>
+
+          <!-- Supplier -->
+          <div class="detail-card">
+            <h2 class="detail-title">
+              <span></span>
+              Nhà cung cấp
+            </h2>
+
+            ${
+              supplier
+                ? `
+                <div class="instructions-list">
+
+                  <div class="instruction-item">
+                    <div class="instruction-number">🏢</div>
+                    <div class="instruction-text">
+                      <strong>Tên nhà cung cấp:</strong> ${supplier.SupplierName}
+                    </div>
+                  </div>
+
+                  <div class="instruction-item">
+                    <div class="instruction-number">📍</div>
+                    <div class="instruction-text">
+                      <strong>Địa chỉ:</strong> ${supplier.Address}
+                    </div>
+                  </div>
+
+                  <div class="instruction-item">
+                    <div class="instruction-number">☎️</div>
+                    <div class="instruction-text">
+                      <strong>Liên hệ:</strong> ${supplier.Contact}
+                    </div>
+                  </div>
+
+                </div>
+                `
+                : `<div class="empty-state">Không có thông tin nhà cung cấp</div>`
+            }
           </div>
         `;
         
