@@ -16,13 +16,13 @@ function bindLogs(conn, label = "[DB]") {
   conn.on("disconnected", () => console.warn(`${label} disconnected`));
 }
 
-// ========== ✅ Kết nối với READ-ONLY user ==========
+// ========== Kết nối với READ-ONLY user ==========
 // ========== Kết nối MongoDB (Local hoặc Cloud) ==========
 async function connectDB() {
   const uri = process.env.MONGODB_URI;
   
   if (!uri) {
-    throw new Error("❌ Missing MONGODB_URI in .env file");
+    throw new Error("Missing MONGODB_URI in .env file");
   }
 
   await mongoose.connect(uri, {
@@ -31,7 +31,7 @@ async function connectDB() {
   });
 
   bindLogs(mongoose.connection, "[ReadOnly-DB]");
-  console.log("✅ Connected to MongoDB with READ-ONLY user (qr_readonly)");
+  console.log("Connected to MongoDB with READ-ONLY user (qr_readonly)");
 }
 
 // ------------------------ Exports ------------------------

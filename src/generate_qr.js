@@ -5,7 +5,7 @@ const Product = require('./models/Product');
 
 async function main() {
     // Lấy connection string từ .env
-    const uri = process.env.MONGODB_URI_READONLY || process.env.MONGODB_URI;
+    const uri = process.env.MONGODB_URI;
     
     if (!uri) {
         throw new Error("Missing MONGODB_URI_READONLY in .env file");
