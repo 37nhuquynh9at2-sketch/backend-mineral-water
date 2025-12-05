@@ -4,17 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thông tin sản phẩm</title>
-
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body { 
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f5f1e8;
       color: #5a4a3a;
       padding: 40px 20px;
       min-height: 100vh;
     }
 
+    /* Decorative circles */
     .circle-decoration {
       position: fixed;
       border-radius: 50%;
@@ -22,192 +27,562 @@
       pointer-events: none;
       z-index: 0;
     }
-    .circle-1 { width: 400px; height: 400px; top: -100px; right: -100px; }
-    .circle-2 { width: 300px; height: 300px; bottom: -50px; left: -50px; }
-    .circle-3 { width: 200px; height: 200px; top: 50%; left: 10%; opacity: 0.5; }
 
-    .container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
-
-    .loading { text-align: center; padding: 80px 20px; font-size: 1.4em; color: #7a6a5a; }
-
-    .error {
-      background: #ffe1e1;
-      color: #b30000;
-      padding: 40px;
-      border-radius: 18px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      font-size: 1.2em;
+    .circle-1 {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+      right: -100px;
     }
 
+    .circle-2 {
+      width: 300px;
+      height: 300px;
+      bottom: -50px;
+      left: -50px;
+    }
+
+    .circle-3 {
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      left: 10%;
+      opacity: 0.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 100px 20px;
+      font-size: 1.5em;
+      color: #7a6a5a;
+    }
+
+    .error {
+      background: linear-gradient(135deg, #ffcdd2, #ef9a9a);
+      color: #c62828;
+      padding: 40px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* Product Header */
     .product-header {
       background: white;
       border-radius: 30px;
-      padding: 40px;
+      padding: 50px;
       margin-bottom: 50px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+      box-shadow: 0 15px 50px rgba(0,0,0,0.12);
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
+    .product-image-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      background: linear-gradient(135deg, #a8c69f, #7ab88f);
+      padding: 15px 35px;
+      border-radius: 25px;
+      margin-bottom: 40px;
+      box-shadow: 0 8px 25px rgba(168, 198, 159, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .badge h3 {
+      font-size: 1.15em;
+      color: white;
+      margin-bottom: 5px;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge p {
+      font-size: 0.9em;
+      color: rgba(255,255,255,0.95);
+      line-height: 1.5;
+      position: relative;
+      z-index: 1;
+    }
+
     .product-image {
       max-width: 350px;
-      margin-bottom: 25px;
-      border-radius: 12px;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+      max-height: 450px;
+      height: auto;
+      margin-bottom: 35px;
+      filter: drop-shadow(0 15px 35px rgba(0,0,0,0.2));
+      transition: transform 0.4s ease;
+    }
+
+    .product-image:hover {
+      transform: scale(1.05);
     }
 
     .product-name {
-      font-size: 2.6em;
-      margin-top: 10px;
-      font-weight: 700;
+      font-size: 2.8em;
       color: #6b5444;
+      font-weight: 700;
+      margin: 30px 0 40px;
       text-align: center;
     }
 
-    .info-row {
-      background: #faf7f2;
-      padding: 20px;
-      margin: 10px 0;
-      border-radius: 15px;
-      font-size: 1.3em;
-      display: flex;
-      justify-content: space-between;
-      border-left: 5px solid #a8c69f;
+    .divider {
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #a8c69f, transparent);
+      margin: 60px auto 80px;
     }
 
+    .product-info-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .info-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      font-size: 1.6em;
+      color: #6b5444;
+      margin-bottom: 25px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .info-header::before,
+    .info-header::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #a8c69f);
+      max-width: 80px;
+    }
+
+    .info-header::after {
+      background: linear-gradient(90deg, #a8c69f, transparent);
+    }
+
+    .info-icon {
+      font-size: 1.3em;
+      background: linear-gradient(135deg, #a8c69f, #7ab88f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .info-row {
+      background: linear-gradient(135deg, #f8f5f0, #faf7f2);
+      padding: 25px 35px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: linear-gradient(180deg, #a8c69f, #7ab88f);
+      transition: width 0.3s ease;
+    }
+
+    .info-row:hover::before {
+      width: 100%;
+      opacity: 0.1;
+    }
+
+    .info-row:hover {
+      border-color: #a8c69f;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(168, 198, 159, 0.25);
+    }
+
+    .info-label {
+      font-size: 1.3em;
+      color: #6b5444;
+      font-weight: 600;
+    }
+
+    .info-value {
+      font-size: 1.3em;
+      color: #7a6a5a;
+      font-weight: 500;
+    }
+
+    /* Details Section */
     .details-section {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 35px;
+      gap: 40px;
+      margin-top: 40px;
     }
 
     .detail-card {
       background: white;
-      padding: 35px;
-      border-radius: 25px;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+      border-radius: 30px;
+      padding: 50px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
     }
 
     .detail-title {
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
       font-size: 1.6em;
-      margin-bottom: 25px;
-      font-weight: 700;
       color: #6b5444;
+      margin-bottom: 35px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .detail-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #a8c69f, transparent);
+    }
+
+    .detail-title span {
+      font-size: 1.3em;
+    }
+
+    /* Composition */
+    .composition-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .composition-item {
+      background: linear-gradient(135deg, #a8c69f, #7ab88f);
+      padding: 30px;
+      border-radius: 20px;
+      color: white;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(168, 198, 159, 0.3);
+    }
+
+    .composition-label {
+      font-size: 1.3em;
+      opacity: 0.95;
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+
+    .composition-value {
+      font-size: 1.6em;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    /* Instructions */
+    .instructions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .instruction-item {
+      display: flex;
+      gap: 20px;
+      padding: 25px;
+      background: #f8f5f0;
+      border-radius: 18px;
+      align-items: flex-start;
+      transition: all 0.3s ease;
+    }
+
+    .instruction-item:hover {
+      background: #f0ebe0;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .instruction-number {
+      background: linear-gradient(135deg, #a8c69f, #7ab88f);
+      color: white;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+      font-size: 1.1em;
+      box-shadow: 0 4px 12px rgba(168, 198, 159, 0.4);
+    }
+
+    .instruction-text {
+      flex: 1;
+      color: #6b5444;
+      line-height: 1.7;
+      font-size: 1.3em;
     }
 
     .empty-state {
       text-align: center;
-      padding: 30px;
+      padding: 50px 20px;
+      color: #9a8a7a;
       font-style: italic;
-      color: #8c7a6a;
+      font-size: 1.1em;
+    }
+
+    @media (max-width: 1024px) {
+      .product-header {
+        padding: 40px 30px;
+      }
+
+      .details-section {
+        grid-template-columns: 1fr;
+      }
+
+      .product-name {
+        font-size: 2.2em;
+      }
+
+      .info-header,
+      .detail-title {
+        font-size: 1.4em;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 15px;
+      }
+
+      .product-header,
+      .detail-card {
+        padding: 30px 20px;
+      }
+
+      .product-name {
+        font-size: 1.9em;
+      }
+
+      .info-header,
+      .detail-title {
+        font-size: 1.3em;
+      }
+
+      .info-header::before,
+      .info-header::after {
+        max-width: 40px;
+      }
+
+      .badge {
+        padding: 12px 25px;
+      }
     }
   </style>
-
 </head>
 <body>
 
+  <!-- Decorative circles -->
   <div class="circle-decoration circle-1"></div>
   <div class="circle-decoration circle-2"></div>
   <div class="circle-decoration circle-3"></div>
 
   <div class="container">
     <div id="product-content">
-      <div class="loading">Đang tải sản phẩm...</div>
+      <div class="loading">Đang tải thông tin sản phẩm...</div>
     </div>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-
-      const productContainer = document.getElementById("product-content");
-
-      // lấy mã sản phẩm từ URL
-      const code = window.location.pathname.split("/")[2];
+      const productContent = document.getElementById("product-content");
+      
+      const path = window.location.pathname.split("/");
+      const code = path[2];
+      
+      console.log("Product code:", code);
 
       if (!code) {
-        productContainer.innerHTML = `<div class='error'>❌ Không tìm thấy mã sản phẩm!</div>`;
+        productContent.innerHTML = `
+          <div class='error'>
+            <strong style="font-size: 1.5em; display: block; margin-bottom: 10px;">❌ Lỗi</strong>
+            <p>Không tìm thấy mã sản phẩm trong URL</p>
+          </div>
+        `;
         return;
       }
 
       try {
+        const url = `/api/products/${code}`;
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
 
-        // gọi API sản phẩm
-        const resProduct = await fetch(`/api/products/${code}`);
-        const productData = await resProduct.json();
+        const result = await response.json();
 
-        if (!productData.success || !productData.data) {
-          productContainer.innerHTML = `<div class='error'>⚠ Không tìm thấy sản phẩm!</div>`;
+        if (!result.success || !result.data) {
+          productContent.innerHTML = `
+            <div class='error'>
+              <strong style="font-size: 1.5em; display: block; margin-bottom: 10px;">⚠️ Thông báo</strong>
+              <p>Không tìm thấy sản phẩm có mã: ${code}</p>
+            </div>
+          `;
           return;
         }
 
-        const p = productData.data;
-
-        // ====== LOAD BRAND ======
-        let brandName = "Không có thông tin";
-        let brandDesc = "";
-
-        if (p.BrandID) {
-          try {
-            const resBrand = await fetch(`/api/brands/${p.BrandID}`);
-            const brand = await resBrand.json();
-
-            if (brand.success && brand.data) {
-              brandName = brand.data.BrandName;
-              brandDesc = brand.data.Description || "";
-            }
-          } catch {}
-        }
-
-        productContainer.innerHTML = `
+        const p = result.data;
+        
+        productContent.innerHTML = `
+          <!-- Product Header -->
           <div class="product-header">
-            ${
-              p.ImageURL
-                ? `<img src="${p.ImageURL}" class="product-image">`
-                : `<div style="font-size: 6em; opacity:0.3">🛒</div>`
-            }
-            <h1 class="product-name">${p.ProductName}</h1>
-
-            <div style="width: 100%; max-width: 600px; margin-top: 25px;">
-              <div class="info-row">
-                <span>Thương hiệu</span>
-                <span><b>${brandName}</b></span>
+            <div class="product-image-section">
+              <div class="badge">
+                <h3>NƯỚC KHOÁNG</h3>
+                <p>Hội người có cái cổ họng sa mạc</p>
               </div>
-              ${
-                brandDesc
-                  ? `<div style="padding: 10px 0 0 10px; font-size:1.1em; opacity:.8;">${brandDesc}</div>`
-                  : ""
+              
+              ${p.ImageURL ? 
+                `<img src="${p.ImageURL}" alt="${p.ProductName}" class="product-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22%3E%3Crect width=%22300%22 height=%22400%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2260%22 text-anchor=%22middle%22 dy=%22.3em%22%3E💧%3C/text%3E%3C/svg%3E'">` : 
+                `<div style="font-size: 8em; opacity: 0.3; padding: 60px;">💧</div>`
               }
+              
+              <h1 class="product-name">${p.ProductName}</h1>
+            </div>
 
+            <div class="product-info-section">
+              <h2 class="info-header">
+                <span class="info-icon"></span>
+                Thông tin sản phẩm
+              </h2>
+              
               <div class="info-row">
-                <span>Dung tích</span>
-                <span>${p.Volume || "Chưa cập nhật"}</span>
+                <span class="info-label">Dung tích</span>
+                <span class="info-value">${p.Volume || 'Chưa cập nhật'}</span>
               </div>
-
+              
               <div class="info-row">
-                <span>Giá bán</span>
-                <span>${p.Price || "Liên hệ"}</span>
+                <span class="info-label">Giá bán</span>
+                <span class="info-value">${p.Price || 'Liên hệ'}</span>
               </div>
-
+              
               <div class="info-row">
-                <span>Hạn sử dụng</span>
-                <span>${p.ExpiryDate || "Không có"}</span>
+                <span class="info-label">Hạn sử dụng</span>
+                <span class="info-value">${p.ExpiryDate || '24 tháng kể từ ngày sản xuất'}</span>
               </div>
             </div>
           </div>
-        `;
 
+          <!-- Details Section -->
+          <div class="details-section">
+            <!-- Composition -->
+            <div class="detail-card">
+              <h2 class="detail-title">
+                <span></span>
+                Thành phần
+              </h2>
+              
+              ${p.composition ? `
+                <div class="composition-grid">
+                  <div class="composition-item">
+                    <div class="composition-label">Khoáng chất</div>
+                    <div class="composition-value">${p.composition.MineralComposition}</div>
+                  </div>
+                  <div class="composition-item">
+                    <div class="composition-label">Độ pH</div>
+                    <div class="composition-value">${p.composition.pHRange}</div>
+                  </div>
+                </div>
+              ` : `<div class="empty-state">Không có thông tin thành phần</div>`}
+            </div>
+
+            <!-- Instructions -->
+            <div class="detail-card">
+              <h2 class="detail-title">
+                <span></span>
+                Hướng dẫn bảo quản
+              </h2>
+              
+              ${p.careInstructions?.length ? `
+                <div class="instructions-list">
+                  ${p.careInstructions.map((item, index) => `
+                    <div class="instruction-item">
+                      <div class="instruction-number">${index + 1}</div>
+                      <div class="instruction-text">${item.InstructionText}</div>
+                    </div>
+                  `).join("")}
+                </div>
+              ` : `<div class="empty-state">Không có hướng dẫn bảo quản</div>`}
+            </div>
+          </div>
+        `;
+        
+        console.log("✅ Loaded successfully!");
+        
       } catch (err) {
-        productContainer.innerHTML = `
+        console.error("❌ Error:", err);
+        productContent.innerHTML = `
           <div class='error'>
-            ❌ Lỗi tải dữ liệu<br>
-            ${err.message}
-          </div>`;
+            <strong style="font-size: 1.5em; display: block; margin-bottom: 15px;">❌ Lỗi kết nối</strong>
+            <p style="font-size: 1.1em; margin-bottom: 10px;">${err.message}</p>
+            <small style="opacity: 0.8;">Vui lòng kiểm tra server có đang chạy không?</small>
+          </div>
+        `;
       }
     });
   </script>
-
 </body>
 </html>
